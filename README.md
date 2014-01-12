@@ -13,7 +13,7 @@ against HTTP Signature Authentication.
 require_once('http-s3auth.php');
 
 HTTPS3Auth::sign('GET', '/', $headers, array(
-	'access_key' => 'AKIAIOSFODNN7EXAMPLE'
+	'access_key' => 'AKIAIOSFODNN7EXAMPLE',
 	'secret_key' => 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 ));
 
