@@ -75,8 +75,8 @@ class HTTPS3Auth {
 			$sign[] = "$k:$v";
 		}
 
-		$uri = parse_url($uri);
-		if ($uri === FALSE) {
+		$url = parse_url($uri);
+		if ($url === FALSE) {
 			throw new InvalidS3HeaderError("uri is invalid");
 		}
 
@@ -94,13 +94,13 @@ class HTTPS3Auth {
 			}
 		}
 
-		if (!isset($uri['path'])) {
+		if (!isset($url['path'])) {
 			throw new MissingS3HeaderError("uri doesn't contain a path");
 		}
-		$resource .= $uri['path'];
+		$resource .= $url['path'];
 
-		if (isset($uri['query'])) {
-			parse_str($uri['query'], $query);
+		if (isset($url['query'])) {
+			parse_str($url['query'], $query);
 
 			$q = array();
 			ksort($query);
