@@ -101,18 +101,26 @@ class HTTPS3Auth {
 
 		if (isset($url['query'])) {
 			parse_str($url['query'], $query);
+			$subs = array('acl', 'lifecycle', 'location', 'logging', 'notification', 'partNumber', 'policy', 'requestPayment', 'torrent', 'uploadId', 'uploads', 'versionId', 'versioning', 'versions', 'website',
+			    'response-content-type', 'response-content-language', 'response-expires', 'response-cache-control', 'response-content-disposition', 'response-content-encoding');
 
 			$q = array();
 			ksort($query);
-			foreach ($query as $k => $v) {
-				$s .= "$k";
-				if (strlen($v)) {
-					$s .= "=$v";
+			foreach ($subs as $k) {
+				if (!isset($query[$k])) {
+					continue;
+				}
+
+				$s = "$k";
+				if (strlen($query[$k])) {
+					$s .= "=" . $query[$k];
 				}
 				$q[] = $s;
 			}
-					
-			$resource .= '?' . implode('&', $q);
+
+			if (sizeof($q)) {
+				$resource .= '?' . implode('&', $q);
+			}
 		}
 		$sign[] = $resource;
 
