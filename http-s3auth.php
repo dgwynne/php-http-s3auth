@@ -24,6 +24,10 @@ class MissingS3HeaderError extends HttpS3AuthError { };
 class HTTPS3Auth {
 	static protected $provider = 's3.amazonaws.com';
 
+	static function urlencode($path) {
+		return implode('/', array_map('rawurlencode', explode('/', $path)));
+	}
+
 	static function sign($method, $uri, &$headers = array(), array $options = array())
 	{
 		$provider = isset($options['provider']) ?
