@@ -79,9 +79,13 @@ class HTTPS3Auth {
 			$sign[] = "$k:$v";
 		}
 
-		$url = parse_url($uri);
-		if ($url === FALSE) {
-			throw new InvalidS3HeaderError("uri is invalid");
+		if (is_array($uri)) {
+			$url = $uri;
+		} else {
+			$url = parse_url($uri);
+			if ($url === FALSE) {
+				throw new InvalidS3HeaderError("uri is invalid");
+			}
 		}
 
 		$resource = '';
@@ -90,7 +94,7 @@ class HTTPS3Auth {
 			 * sigh, i have to fake a lot of a url to pull the
 			 * host apart from the port
 			 */
-			$host = parse_url("http://" . $hdrs['host'] . $uri, PHP_URL_HOST);
+			$host = parse_url("http://" . $hdrs['host'] . $uri['path'], PHP_URL_HOST);
 
 			if (strcasecmp($host, $provider) != 0 &&
 			    preg_match("/^(.*)(\Q.$provider\E)\$/i", $host, $m)) {
